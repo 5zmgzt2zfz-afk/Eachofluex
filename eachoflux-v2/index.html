@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#02050a"><meta name="description" content="Eachoflux V2 futuristic AI assistant">
+<title>Eachoflux V2 — AI Command Center</title>
+<style>
+:root{--bg:#02050a;--panel:#07101b;--panel2:#0b1725;--line:#17314b;--blue:#42b8ff;--cyan:#73e7ff;--text:#edf8ff;--muted:#8195aa;--red:#ff5471}
+*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at 50% 10%,#0a2944 0,#030913 32%,#02050a 72%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}
+.app{min-height:100vh;max-width:1100px;margin:auto;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:10;padding:12px 14px;background:rgba(2,5,10,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(66,184,255,.12);display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px}.mini{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:900;background:radial-gradient(circle at 35% 25%,#d8fbff,#42b8ff 30%,#075181 65%,#04101b);box-shadow:0 0 25px #42b8ff55}.title{font-weight:900;letter-spacing:1px}.sub{font-size:10px;color:#61d9ff;letter-spacing:.8px}.topBtns{display:flex;gap:7px}.btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--text)}
+main{padding:18px 14px 150px}.dashboard{display:grid;grid-template-columns:1fr;gap:14px}.core{min-height:390px;border:1px solid #174064;border-radius:26px;background:linear-gradient(180deg,#081827cc,#040a12dd);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}.core:before{content:"";position:absolute;inset:12%;border:1px solid #42b8ff25;border-radius:50%;box-shadow:0 0 70px #42b8ff10}.orb{width:185px;height:185px;border-radius:50%;display:grid;place-items:center;position:relative;background:radial-gradient(circle at 38% 28%,#efffff 0,#73e7ff 8%,#42b8ff 24%,#075487 52%,#03101c 72%);box-shadow:0 0 35px #42b8ff88,0 0 100px #42b8ff35,inset 0 0 35px #d9fbff55;animation:float 4s ease-in-out infinite}.orb:after,.orb:before{content:"";position:absolute;inset:-18px;border:1px solid #42b8ff55;border-radius:50%;animation:spin 8s linear infinite}.orb:after{inset:-36px;border-style:dashed;animation-duration:14s;animation-direction:reverse}.core.active .orb{animation:pulse 1.3s ease-in-out infinite}.core.active .orb:after{animation-duration:2s}.e{font-size:60px;font-weight:1000;text-shadow:0 0 20px #fff}.core h1{margin:28px 0 4px;font-size:27px}.core p{margin:0;color:var(--muted);font-size:12px}.wave{height:28px;margin-top:14px;display:flex;align-items:center;gap:3px}.wave i{display:block;width:3px;height:8px;background:var(--cyan);border-radius:4px;opacity:.55}.core.active .wave i{animation:w .7s infinite alternate}.wave i:nth-child(2){animation-delay:.1s}.wave i:nth-child(3){animation-delay:.2s}.wave i:nth-child(4){animation-delay:.3s}.wave i:nth-child(5){animation-delay:.4s}
+@keyframes float{50%{transform:translateY(-8px)}}@keyframes pulse{50%{transform:scale(1.05);box-shadow:0 0 55px #42b8ffaa,0 0 130px #42b8ff55}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes w{to{height:25px;opacity:1}}
+.side{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{border:1px solid var(--line);border-radius:18px;background:#07111ddd;padding:14px}.card h3{margin:0 0 10px;font-size:11px;color:#8bcff2;letter-spacing:1px}.stat{font-size:20px;font-weight:800}.small{font-size:11px;color:var(--muted);margin-top:3px}.commandGrid{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.quick{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:12px;border-radius:14px;text-align:left}.quick b{display:block;font-size:12px}.quick span{font-size:10px;color:var(--muted)}
+.chat{margin-top:14px;display:flex;flex-direction:column;gap:9px}.msg{max-width:88%;padding:12px 14px;border-radius:17px;border:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45;font-size:14px}.msg.ai{background:linear-gradient(180deg,#0a1928,#07111c);align-self:flex-start}.msg.user{background:linear-gradient(180deg,#103c61,#092844);align-self:flex-end;border-color:#1d5f8d}.who{font-size:9px;color:#6faed0;margin-bottom:4px;letter-spacing:.8px}.typing{display:none;margin:8px 0;color:var(--muted);font-size:11px}.typing.show{display:block}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(1100px,100%);z-index:20;padding:9px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(2,5,10,.9);backdrop-filter:blur(18px);border-top:1px solid #17314b}.composer{display:flex;gap:7px;border:1px solid var(--line);background:#07111c;border-radius:17px;padding:6px}.composer input{flex:1;min-width:0;background:transparent;color:var(--text);border:0;outline:0;padding:11px 8px}.composer button{border:0;background:transparent;color:#b8cadc;width:42px;height:42px;border-radius:12px}.composer .send{background:var(--blue);color:#03101a;font-weight:900}.mic.active{background:#8e1d38;color:white}.note{text-align:center;font-size:9px;color:#5d7186;margin-top:5px}
+.overlay{display:none;position:fixed;inset:0;z-index:30;background:#02050af5;backdrop-filter:blur(12px);padding:70px 16px}.overlay.open{display:block}.sheet{max-width:600px;margin:auto;border:1px solid var(--line);background:#07111c;border-radius:22px;padding:18px}.sheet h2{margin-top:0}.setting{padding:14px 0;border-bottom:1px solid #13263a}.setting label{font-size:12px}.setting p{font-size:11px;color:var(--muted)}.close{float:right}
+@media(min-width:760px){main{padding:28px}.dashboard{grid-template-columns:1.5fr 1fr}.side{grid-template-columns:1fr 1fr}.commandGrid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand"><div class="mini">E</div><div><div class="title">EACHOFLUX</div><div class="sub" id="status">SYSTEM ONLINE • LOCAL</div></div></div><div class="topBtns"><button class="btn" id="mute" title="Voice">🔊</button><button class="btn" id="settings" title="Settings">⚙️</button></div></header>
+<main>
+<section class="dashboard">
+<div class="core" id="core"><div class="orb"><div class="e">E</div></div><h1>Eachoflux V2</h1><p id="state">READY FOR COMMAND</p><div class="wave"><i></i><i></i><i></i><i></i><i></i></div></div>
+<div class="side">
+<div class="card"><h3>SYSTEM</h3><div class="stat" id="sys">READY</div><div class="small">Assistant core</div></div>
+<div class="card"><h3>MEMORY</h3><div class="stat" id="mem">0</div><div class="small">Saved messages</div></div>
+<div class="card"><h3>VOICE</h3><div class="stat" id="voice">OFF</div><div class="small">Browser speech</div></div>
+<div class="card"><h3>MODE</h3><div class="stat" id="mode">LOCAL</div><div class="small">AI when configured</div></div>
+</div>
+<div class="commandGrid">
+<button class="quick" data-cmd="Give me a quick overview of what you can do."><b>🤖 What can you do?</b><span>Capabilities</span></button>
+<button class="quick" data-cmd="Give me a short motivational message."><b>⚡ Motivate me</b><span>Quick boost</span></button>
+<button class="quick" data-cmd="Help me plan my next project."><b>🧠 Plan a project</b><span>Build mode</span></button>
+<button class="quick" data-cmd="Explain how Eachoflux memory works."><b>💾 Memory</b><span>Explain storage</span></button>
+<button class="quick" data-cmd="Give me three creative ideas for my content."><b>🎬 Ideas</b><span>Creative mode</span></button>
+<button class="quick" data-cmd="Tell me a futuristic one-line message."><b>🌐 Future mode</b><span>Immersive</span></button>
+</div>
+</section>
+<section class="chat" id="chat" aria-live="polite"></section><div class="typing" id="typing">● ● ● &nbsp; EACHOFLUX IS THINKING</div>
+</main>
+<div class="bottom"><div class="composer"><button id="mic" class="mic" title="Voice input">🎙️</button><input id="input" maxlength="4000" placeholder="Say or type a command…"><button id="send" class="send">➤</button></div><div class="note">Eachoflux V2 • Voice features depend on your browser • API key stays server-side</div></div>
+</div>
+<div class="overlay" id="overlay"><div class="sheet"><button class="btn close" id="close">×</button><h2>Eachoflux Settings</h2><div class="setting"><label>Voice responses</label><p>Turn spoken AI replies on or off.</p><button class="quick" id="voiceToggle">Toggle voice</button></div><div class="setting"><label>Conversation memory</label><p>Chat history is stored locally on this device. The server only receives recent chat messages when you ask Eachoflux something.</p><button class="quick" id="forget">Clear local memory</button></div><div class="setting"><label>Connection</label><p id="connection">Checking AI connection when you send a message.</p></div></div></div>
+<script>
+const chat=document.getElementById("chat"),input=document.getElementById("input"),send=document.getElementById("send"),mic=document.getElementById("mic"),core=document.getElementById("core"),state=document.getElementById("state"),typing=document.getElementById("typing"),status=document.getElementById("status");
+const KEY="eachoflux-v2-memory"; let messages=JSON.parse(localStorage.getItem(KEY)||"[]"), speakOn=true, listening=false;
+function save(){localStorage.setItem(KEY,JSON.stringify(messages.slice(-40)));document.getElementById("mem").textContent=messages.length}
+function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function render(){chat.innerHTML="";messages.forEach(m=>{let d=document.createElement("div");d.className="msg "+(m.role==="user"?"user":"ai");d.innerHTML=`<div class="who">${m.role==="user"?"YOU":"EACHOFLUX"}</div>${esc(m.text)}`;chat.appendChild(d)});save();window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})}
+function add(role,text){messages.push({role,text});render()}
+function speak(text){if(!speakOn||!("speechSynthesis"in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.rate=.96;u.pitch=.9;speechSynthesis.speak(u)}
+async function ask(textOverride){
+ const text=(textOverride??input.value).trim();if(!text)return;input.value="";add("user",text);typing.classList.add("show");core.classList.add("active");state.textContent="PROCESSING COMMAND…";document.getElementById("sys").textContent="THINKING";send.disabled=true;
+ try{let r=await fetch("/api/chat",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({messages})});let d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||"AI service unavailable.");add("assistant",d.reply||"No response received.");speak(d.reply||"");status.textContent="SYSTEM ONLINE • AI CONNECTED";document.getElementById("mode").textContent="AI";document.getElementById("connection").textContent="AI connection is active."}
+ catch(e){add("assistant","I'm in local mode. The interface is working, but live AI isn't connected yet. Add OPENAI_API_KEY to your Cloudflare Pages project secrets.");status.textContent="SYSTEM ONLINE • LOCAL";document.getElementById("connection").textContent=e.message||"AI is not configured."}
+ finally{typing.classList.remove("show");core.classList.remove("active");state.textContent="READY FOR COMMAND";document.getElementById("sys").textContent="READY";send.disabled=false;input.focus()}
+}
+send.onclick=()=>ask();input.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();ask()}});
+document.querySelectorAll(".quick").forEach(b=>b.dataset.cmd&&b.addEventListener("click",()=>ask(b.dataset.cmd)));
+document.getElementById("mute").onclick=()=>{speakOn=!speakOn;document.getElementById("mute").textContent=speakOn?"🔊":"🔇"};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(SR){let r=new SR();r.lang=navigator.language||"en-US";r.interimResults=false;r.continuous=false;r.onstart=()=>{listening=true;mic.classList.add("active");state.textContent="LISTENING…";document.getElementById("voice").textContent="ON"};r.onend=()=>{listening=false;mic.classList.remove("active");state.textContent="READY FOR COMMAND"};r.onerror=()=>{listening=false;mic.classList.remove("active")};r.onresult=e=>{input.value=e.results[0][0].transcript;ask()};mic.onclick=()=>listening?r.stop():r.start()}else mic.disabled=true;
+document.getElementById("settings").onclick=()=>document.getElementById("overlay").classList.add("open");document.getElementById("close").onclick=()=>document.getElementById("overlay").classList.remove("open");
+document.getElementById("voiceToggle").onclick=()=>{speakOn=!speakOn;document.getElementById("mute").textContent=speakOn?"🔊":"🔇";toast(speakOn?"Voice responses on":"Voice responses off")};
+document.getElementById("forget").onclick=()=>{messages=[];save();render();toast("Local memory cleared")};
+function toast(t){let x=document.createElement("div");x.textContent=t;x.style.cssText="position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:50;background:#0b1725;border:1px solid #17314b;padding:10px 14px;border-radius:12px;font-size:12px";document.body.appendChild(x);setTimeout(()=>x.remove(),1800)}
+render();
+</script>
+</body></html>
